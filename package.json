@@ -3,9 +3,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "build": "NODE_ENV=production next build",
+    "start": "NODE_ENV=production next start",
+    "export": "npm run build && next export -o _static"
   },
   "dependencies": {
     "@emotion/react": "^11.7.0",
@@ -13,9 +13,11 @@
     "@mui/icons-material": "^5.2.4",
     "@mui/material": "^5.2.3",
     "axios": "^0.24.0",
+    "bootstrap": "^5.3.0",
     "next": "12.0.7",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-icons": "^4.10.1",
     "sass": "^1.45.0",
     "swr": "^1.1.1"
   },

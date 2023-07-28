@@ -8,19 +8,29 @@ import Link from 'next/link';
 import { Movie, Seats } from '../../constants/models/Movies'
 import styles from './Payment.module.scss'
 import MoviesContext from '../../context/MoviesContext';
+import { useGetSeats, useCheckSeasts } from '../../services/movies'
+import axios from 'axios'
 
 const Tickets = () => {
   const { movies, setMovies } = useContext(MoviesContext);
   const router = useRouter();
   const [seconds, setSeconds] = useState(5);
+  const [getDatacon, setGetDatacon] = useState<any>([]);
+
+  const [usebtn, setUsebtn] = useState<Number>(0);
+  const [usetotal, setUsetotal] = useState(0);
   const [isTimerCompleted, setIsTimerCompleted] = useState(false);
   let movieSeatDetails: Seats = {};
   let bookingChargePerTicket = 20, ticketCost: number, bookingFee: number, totalCost: number;
   const {movieId, seatDetails}: any = router.query;
-  const movie = movies.find(mov => mov.id === parseInt(movieId));
+
+  const { movie, isLoading, isError } = useGetSeats(movieId);
+
   if (seatDetails) {
     movieSeatDetails = JSON.parse(seatDetails);
   }
+
+  console.log('-->', movieSeatDetails)
 
   useEffect(() => {
     if (seconds > 0) {
@@ -32,6 +42,7 @@ const Tickets = () => {
 
   const computeSelectedSeats = () => {
     let selectedSeats: string[] = [];
+
     for(let key in movieSeatDetails) {
       movieSeatDetails[key].forEach((seatValue, seatIndex) => {
         if (seatValue === 2) {
@@ -39,6 +50,7 @@ const Tickets = () => {
         }
       })
     }
+    
     return selectedSeats;
   }
 
@@ -55,21 +67,11 @@ const Tickets = () => {
       </div>
   )}
 
-  const RenderBookingCharge = ({selectedSeats}: {selectedSeats: string[]}) => {
-    bookingFee = selectedSeats.length * bookingChargePerTicket;
-    return (
-      <div className={styles.seatDetailsContainer}>
-        <div className={styles.seatDetails}>
-          Booking Charge
-        </div>
-        <div className={styles.seatCost}>
-          Rs.{bookingFee}
-        </div>
-      </div>
-  )}
+
 
   const RenderTotalCharge = ({selectedSeats}: {selectedSeats: string[]}) => {
-    totalCost = ticketCost + bookingFee;
+    totalCost = ticketCost;
+    setUsetotal(totalCost)
     return (
       <div className={styles.seatDetailsContainer}>
         <div className={styles.seatDetails}>
@@ -113,24 +115,60 @@ const Tickets = () => {
     )
   }
 
+  useEffect(() => {
+    
+    let selectedSeats: string[] = computeSelectedSeats();
+    setGetDatacon(selectedSeats)
+
+    if(selectedSeats.length === 0){
+      router.back()
+    }
+    
+
+    axios.post(`${process.env.API}/useCheckSeasts/${movieId}`, {selectedSeats}).then(
+    response => {
+      console.log('selectedSeats', selectedSeats);
+      setUsebtn(response.status)
+    } )
+
+  }, []);
+
   const RenderCard = () => {
     let selectedSeats: string[] = computeSelectedSeats();
-    
     if (!movie) return <div>loading...</div>
+
+
     return (
     <div className={styles.card}>
       <div className={styles.cardTitleContainer}>
         <Link href={{ pathname: `/seats/${movie?.id}`, query: { seats: isTimerCompleted ? null : JSON.stringify(seatDetails) }}}><ArrowBackIcon /></Link>
-        <div className={styles.cardTitle}>
-          BOOKING SUMMARY
+        <div className={styles.cardTitle3}>
+         สรุปรายการจอง
         </div>
       </div>
         <p className={styles.movieName}>{movie.name}</p>
       <RenderSeatDetails selectedSeats={selectedSeats}/>
-      <RenderBookingCharge selectedSeats={selectedSeats}/>
       <hr className={styles.hrStyle}/>
       <RenderTotalCharge selectedSeats={selectedSeats}/>
-      <RenderConfirmButton />
+      {usebtn === 200 &&
+        <div className={styles.paymentButtonContainer}>
+          <Link href={{ pathname: '/confirmPayment', query: { movieId: movie?.id, seatDetails: getDatacon, usetotal: usetotal, seats: isTimerCompleted ? null : JSON.stringify(seatDetails) } }}>
+          <Button variant="contained" className={styles.paymentButton} >
+             Confirm Booking
+          </Button>
+          </Link>
+        </div>
+      }
+
+      {usebtn === 204 &&
+      <>
+      <div className="alert alert-warning mt-15" role="alert">
+      มีการกดจองที่นั่งของคุณก่อนหน้านี้แล้ว กรุณาเลือกที่นั่งใหม่!
+      </div>
+      <Link href={{ pathname: `/seats/${movie?.id}`, query: { seats: isTimerCompleted ? null : JSON.stringify(seatDetails) }}}><button type="button" className="btn btn-secondary">กลับไปเลือกที่นั่งใหม่</button></Link>
+      </>
+      }
+      
     </div>
     )
   }

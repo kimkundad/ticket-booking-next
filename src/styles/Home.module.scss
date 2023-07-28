@@ -1,6 +1,7 @@
 .title {
   color: #333;
   padding: 20px 0 0px 0;
+  font-size: 32px;
 }
 .text {
   color: #777;
@@ -34,10 +35,44 @@
 }
 .moviesContainer {
   margin: 0 auto;
-  text-align: center;
-  width: 90%;
+  width: 80%;
+  margin-bottom: 100px;
 }
 .addMovieButton {
   margin-bottom: 30px;
   background: #4979ff;
+}
+.event_view_theme{
+  color: #fff;
+  background: #000106;
+  position: relative;
+    z-index: 1;
+}
+.event_cover_box{
+  position: relative;
+    z-index: 1;
+    background: #000106;
+}
+.poster_cover_box{
+  position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    z-index: 4;
+    background: #000106;
+
+}
+.bg_blur_cover{
+  background-image: url('http://localhost/cinema-app/public/images/mawastudio/img/S__50823175.jpg');
+    filter: blur(10px);
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+.theme_hero_area_body{
+  position: relative;
+  z-index: 6;
+  height: 100%;
 }

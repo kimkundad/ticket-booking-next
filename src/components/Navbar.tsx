@@ -3,15 +3,15 @@ import Image from 'next/image'
 
 const Navbar = () => {
   return (
-    <nav>
+    <div className="container">
+    <nav className='d-flex justify-content-center'>
       <Link href="/">
         <div className="logo">
-          <Image src="/logo.png" alt="site logo" width={40} height={30} />
-          <span className="logo-text">Book My Ticket</span>
+          <Image src="/logo_v1.png" alt="site logo" width={85} height={40} />
         </div>
       </Link>
-      <Link href="/"><a>Home</a></Link>
     </nav>
+    </div>
 );
 }
  

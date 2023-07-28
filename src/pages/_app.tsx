@@ -4,6 +4,7 @@ import '../styles/globals.scss'
 import Layout from '../components/Layout'
 import MoviesContext from '../context/MoviesContext'
 import { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.css'
 import { Movie } from '../constants/models/Movies';
 import { movies as mockMovies } from './../constants/movies';
 

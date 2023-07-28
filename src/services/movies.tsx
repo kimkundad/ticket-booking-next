@@ -13,6 +13,43 @@ function useGetMovies () {
   }
 }
 
+
+function useGetEvent () {
+  const fetcher = (url: string) => axios.get(url).then(res => res.data)
+  const { data, error } = useSWR(`${process.env.API}/get_event/1`, fetcher)
+
+  return {
+    event: data,
+    isLoading: !error && !data,
+    isError: error
+  }
+}
+
+//${process.env.API}/get_seats/${$id} getDataOrder
+function useGetSeats ($id: string) {
+  const fetcher = (url: string) => axios.get(url).then(res => res.data)
+  const { data, error } = useSWR(`${process.env.API}/get_seats/${$id}`, fetcher)
+
+  return {
+    seatsx: data,
+    movie: data,
+    isLoading: !error && !data,
+    isError: error
+  }
+}
+
+
+function useGetOrder ($id: string) {
+  const fetcher = (url: string) => axios.get(url).then(res => res.data)
+  const { data, error } = useSWR(`${process.env.API}/getDataOrder/${$id}`, fetcher)
+
+  return {
+    order: data,
+    isLoading: !error && !data,
+    isError: error
+  }
+}
+
 function useGetMovieById (id: string) {
   const fetcher = (url: string) => axios.get(url).then(res => res.data)
   const { data, error } = useSWR(`/api/movies/${id}`, fetcher)
@@ -23,6 +60,15 @@ function useGetMovieById (id: string) {
     isError: error
   }
 }
+//useCheckSeasts
+async function useCheckSeasts (movieId: string, selectedSeats: any) {
+   await axios.post(`${process.env.API}/useCheckSeasts/${movieId}`, {selectedSeats}).then(
+    response => {
+      console.log(response.data);
+      return response.data
+    } 
+    )
+}
 
 async function useBookTicketByMovieId (id: string, seatDetails: Seats) {
   return await axios.put(`/api/movies/${id}`, {seatDetails})
@@ -31,5 +77,9 @@ async function useBookTicketByMovieId (id: string, seatDetails: Seats) {
 export {
   useGetMovies,
   useGetMovieById,
-  useBookTicketByMovieId
+  useBookTicketByMovieId,
+  useGetSeats,
+  useCheckSeasts,
+  useGetOrder,
+  useGetEvent
 }
