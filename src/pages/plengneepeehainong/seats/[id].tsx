@@ -5,10 +5,10 @@ import { useRouter } from 'next/router'
 import { useState, useEffect, useContext } from 'react'
 import { Button } from '@mui/material';
 import { AiOutlineCalendar, AiOutlinePushpin, AiOutlineTeam, AiOutlineDollarCircle, AiOutlineAppstoreAdd } from "react-icons/ai";
-import { Movie, Seats } from '../../constants/models/Movies'
+import { Movie, Seats } from '../../../constants/models/Movies'
 import styles from './Seats.module.scss'
-import MoviesContext from '../../context/MoviesContext';
-import { useGetSeats } from '../../services/movies'
+import MoviesContext from '../../../context/MoviesContext';
+import { useGetSeats } from '../../../services/movies'
 
 const Seats = () => { 
 
@@ -174,7 +174,7 @@ const Seats = () => {
     }
     if (selectedSeats.length) {
       return (
-        <Link href={{ pathname: '/payment', query: { movieId: movie?.id, seatDetails: JSON.stringify(seatDetails) } }}>
+        <Link href={{ pathname: '/plengneepeehainong/payment', query: { movieId: movie?.id, seatDetails: JSON.stringify(seatDetails) } }}>
           <div className={styles.paymentButtonContainer}>
             <Button variant="contained" href="#contained-buttons" className={styles.paymentButton} >
             ราคารวม {selectedSeats.length*(movie?.ticketCost || 0)} บาท

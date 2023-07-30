@@ -26,15 +26,51 @@ a {
 }
 nav {
   z-index: 2;
-  padding: 10px 0;
+  padding: 10px 0px 0px 0px;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
   border-bottom: 1px solid #ddd;
 }
+.p-acc{
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.mt-30{
+  margin-top: 30px;
+}
 nav a {
   margin-left: 20px;
   padding: 15px 5px;
+}
+.fs-12{
+  font-size: 8px;
+  letter-spacing:-1px;
+}
+.bd-example{
+  position: relative;
+}
+.seasts-res{
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+.mb-0{
+  margin-bottom: 0px;
+}
+.mw-735px{
+  width: 705px;
+  margin-right: auto;
+    margin-left: auto;
+}
+.wi-858px{
+  max-width: 900px;
+}
+.h-20px{
+  height: 20px;
 }
 nav .logo {
   

@@ -4,4 +4,4 @@ services:
     ports:
       - "3000:3000"
     build: .
-    image: kimkundad/ticket:v4
+    image: kimkundad/ticket:v5

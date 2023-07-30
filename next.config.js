@@ -14,6 +14,10 @@ module.exports = {
         ],
     }
 },
+// env: {
+//   API: 'http://localhost/mawastudio/public/api',
+//   imageAPI: 'http://localhost/mawastudio/public/images',
+// },
 env: {
   API: 'https://admin.mawastudiothailand.com/api',
   imageAPI: 'https://admin.mawastudiothailand.com/images',
